@@ -49,3 +49,18 @@ if dataSetNr < 4
 else
     plotResultsOCR( Xt{2}, Lt{2}, LkNN )
 end
+
+%% Cross-validate
+
+differentK = [1 2 3 4 5 8 10];
+accuracies = zeros(size(differentK,2),1);
+
+for i = 1:length(differentK)
+    disp(k)
+    [predicted, true] = cross_validate_kNN(8, differentK(i), X, D, L);
+    cM = calcConfusionMatrix(predicted, true)
+    accuracies(i) = calcAccuracy(cM)
+end
+
+figure(2001);
+plot(differentK, accuracies)
