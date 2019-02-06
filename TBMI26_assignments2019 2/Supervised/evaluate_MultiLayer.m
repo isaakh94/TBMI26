@@ -24,10 +24,10 @@ selectAtRandom = true; % true = select features at random, false = select the fi
 %% Modify the X Matrices so that a bias is added
 
 % The Training Data
-Xtraining = [];
+Xtraining = [ones(size(Xt{1},2),1)'; Xt{1}];
 
 % The Test Data
-Xtest = [];
+Xtest = [ones(size(Xt{2},2),1)'; Xt{2}];
 
 
 %% Train your single layer network
@@ -36,8 +36,8 @@ Xtest = [];
 numHidden = 7; % Change this, Number of hidde neurons 
 numIterations = 800; % Change this, Numner of iterations (Epochs)
 learningRate = 0.001; % Change this, Your learningrate
-W0 = 0; % Change this, Initiate your weight matrix W
-V0 = 0; % Change this, Initiate your weight matrix V
+W0 = (rand(length(unique(L)), size(Xtraining,1))-0.5)/10; % Change this, Initiate your weight matrix W
+V0 = (rand(length(unique(L)), size(Xtraining,1))-0.5)/10; % Change this, Initiate your weight matrix V
 
 %
 tic

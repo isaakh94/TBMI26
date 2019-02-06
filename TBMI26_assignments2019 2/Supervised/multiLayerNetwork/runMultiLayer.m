@@ -12,7 +12,7 @@ function [ Y, L ] = runMultiLayer( X, W, V )
 S = 0; %Calculate the sumation of the weights and the input signals (hidden neuron)
 U = 0; %Calculate the activation function as a hyperbolic tangent
 Y = 0; %Calculate the sumation of the output neuron
-   
+
 
 % Calculate classified labels
 [~, L] = max(Y,[],1);

@@ -27,13 +27,18 @@ trainingError(1) = sum(sum((Yt - Dt).^2))/Nt;
 testError(1) = sum(sum((Ytest - Dtest).^2))/Ntest;
 
 for n = 1:numIterations
-    Y = Wout*Xt;
     
-    grad_w =0;
-    
-    Wout = Wout - learningRate*grad_w;
-    trainingError(1+n) = sum(sum((Wout*Xt - Dt).^2))/Nt;
-    testError(1+n) = sum(sum((Wout*Xtest - Dtest).^2))/Ntest;
+    Y = runSingleLayer(Xt, Wout);
+    %disp(size((Y - Dt).*(1-Y.^2)))
+    %disp(size(Xt))
+    %for j = 1:size(Wout, 1)
+    %    grad_w(j,:) = (Y(j,:) - Dt(j,:)).*(1-Y(j,:).^2)*Xt.'
+    %end
+    grad_w = (Y - Dt)*Xt';
+
+    Wout = Wout - learningRate*grad_w/Nt;
+    trainingError(1+n) = sum(sum((runSingleLayer(Xt, Wout) - Dt).^2))/Nt;
+    testError(1+n) = sum(sum((runSingleLayer(Xtest, Wout) - Dtest).^2))/Ntest;
 end
 end
 
