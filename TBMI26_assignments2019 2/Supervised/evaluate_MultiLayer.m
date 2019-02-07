@@ -19,9 +19,9 @@ selectAtRandom = true; % true = select features at random, false = select the fi
 
 [ Xt, Dt, Lt ] = selectTrainingSamples(X, D, L, numSamplesPerLabelPerBin, numBins, selectAtRandom );
 
-Xt{1} = Xt{1}(:,1:15:900);
-Lt{1} = Lt{1}(1:15:900,:);
-Dt{1} = Dt{1}(:,1:15:900);
+%Xt{1} = Xt{1}(:,1:15:900); %Uncomment for non-generalizable testing
+%Lt{1} = Lt{1}(1:15:900,:); %Uncomment for non-generalizable testing
+%Dt{1} = Dt{1}(:,1:15:900); %Uncomment for non-generalizable testing
 
 % Note: Xt, Dt, Lt will be cell arrays, to extract a bin from them use i.e.
 % XBin1 = Xt{1};

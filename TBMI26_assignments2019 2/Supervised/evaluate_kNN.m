@@ -7,7 +7,7 @@
 % 3 = dot cloud 3
 % 4 = OCR data
 
-dataSetNr = 2; % Change this to load new data 
+dataSetNr = 4; % Change this to load new data 
 
 [X, D, L] = loadDataSet( dataSetNr );
 
@@ -29,7 +29,7 @@ selectAtRandom = true; % true = select features at random, false = select the fi
 % Note: you have to modify the kNN() function yourselfs.
 
 % Set the number of neighbors
-k = 2;
+k = 8;
 
 LkNN = kNN(Xt{2}, k, Xt{1}, Lt{1});
 
