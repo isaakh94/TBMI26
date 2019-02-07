@@ -35,7 +35,7 @@ Xtest = [ones(size(Xt{2},2),1)'; Xt{2}];
 %% Train your single layer network
 % Note: You nned to modify trainSingleLayer() in order to train the network
 
-numIterations = 1000; % Change this, Numner of iterations (Epochs)
+numIterations = 500; % Change this, Numner of iterations (Epochs)
 learningRate = 0.005; % Change this, Your learningrate
 W0 = (rand(length(unique(L)), size(Xtraining,1))-0.5)/10; % Change this, Initiate your weight matrix
 
