@@ -19,6 +19,10 @@ selectAtRandom = true; % true = select features at random, false = select the fi
 
 [ Xt, Dt, Lt ] = selectTrainingSamples(X, D, L, numSamplesPerLabelPerBin, numBins, selectAtRandom );
 
+Xt{1} = Xt{1}(:,1:15:900);
+Lt{1} = Lt{1}(1:15:900,:);
+Dt{1} = Dt{1}(:,1:15:900);
+
 % Note: Xt, Dt, Lt will be cell arrays, to extract a bin from them use i.e.
 % XBin1 = Xt{1};
 %% Modify the X Matrices so that a bias is added
@@ -33,9 +37,9 @@ Xtest = [ones(size(Xt{2},2),1)'; Xt{2}];
 %% Train your single layer network
 % Note: You nned to modify trainSingleLayer() in order to train the network
 
-numHidden = 33; % Change this, Number of hidden neurons 
-numIterations = 6000; % Change this, Numner of iterations (Epochs)
-learningRate = 0.001; % Change this, Your learningrate
+numHidden = 3; % Change this, Number of hidden neurons 
+numIterations = 10000; % Change this, Numner of iterations (Epochs)
+learningRate = 0.01; % Change this, Your learningrate
 W0 = (rand(numHidden, size(Xtraining,1))-0.5)/10; % Change this, Initiate your weight matrix W
 V0 = (rand(length(unique(L)), numHidden)-0.5)/10; % Change this, Initiate your weight matrix V
 
