@@ -9,14 +9,14 @@
 % 3 = dot cloud 3
 % 4 = OCR data
 
-dataSetNr = 2; % Change this to load new data 
+dataSetNr = 1; % Change this to load new data 
 
 [X, D, L] = loadDataSet( dataSetNr );
 
 %% Select a subset of the training features
 
 numBins = 2; % Number of Bins you want to devide your data into
-numSamplesPerLabelPerBin = 100; % Number of samples per label per bin, set to inf for max number (total number is numLabels*numSamplesPerBin)
+numSamplesPerLabelPerBin = inf; % Number of samples per label per bin, set to inf for max number (total number is numLabels*numSamplesPerBin)
 selectAtRandom = true; % true = select features at random, false = select the first features
 
 [ Xt, Dt, Lt ] = selectTrainingSamples(X, D, L, numSamplesPerLabelPerBin, numBins, selectAtRandom );
@@ -35,11 +35,13 @@ Xtest = [ones(size(Xt{2},2),1)'; Xt{2}];
 %% Train your single layer network
 % Note: You nned to modify trainSingleLayer() in order to train the network
 
-numIterations = 40000; % Change this, Numner of iterations (Epochs)
-learningRate = 0.00005; % Change this, Your learningrate
+numIterations = 1000; % Change this, Numner of iterations (Epochs)
+learningRate = 0.005; % Change this, Your learningrate
 W0 = (rand(length(unique(L)), size(Xtraining,1))-0.5)/10; % Change this, Initiate your weight matrix
 
+tic
 [W, trainingError, testError ] = trainSingleLayer(Xtraining,Dt{1},Xtest,Dt{2}, W0,numIterations, learningRate );
+trainingTime = toc
 
 % Plot errors
 figure(1101)

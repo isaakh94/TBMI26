@@ -34,10 +34,8 @@ testError(1) = sum(sum((Ytest - Dtest).^2))/(numTest*numClasses);
 for n = 1:numIterations
     Ytraining = runMultiLayer(Xtraining, Wout, Vout);
 
-    grad_v = (Ytraining - Dtraining)*tanh(Wout*Xtraining)'; %Calculate the gradient for the output layer
-    grad_w = 0; %..and for the hidden layer.
-
-    
+    grad_v = 2*(Ytraining - Dtraining)*tanh(Wout*Xtraining)'; %Calculate the gradient for the output layer
+    grad_w = 2*(Vout'*(Ytraining - Dtraining)).*(1-tanh(Wout*Xtraining).^2)*Xtraining'; %..and for the hidden layer.
 
     Wout = Wout - learningRate * grad_w/(numTraining); %Take the learning step.
     Vout = Vout - learningRate * grad_v/(numTraining); %Take the learning step.
