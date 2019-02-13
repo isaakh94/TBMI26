@@ -65,14 +65,13 @@ nbrTestImages = length(yTest);
 
 %% Implement the AdaBoost training here
 %  Use your implementation of WeakClassifier and WeakClassifierError
-A = zeros(nbrWeakClassifiers,1); %WeakClassifier weights
-T = zeros(nbrWeakClassifiers,1); %Thresholds
-P = zeros(nbrWeakClassifiers,1); %Planarities
-F = zeros(nbrWeakClassifiers,1); %Which features to cut on
-D = ones(size(xTrain,2),1)/size(xTrain,2); %Weights of samples
+A = zeros(nbrWeakClassifiers,1);
+T = zeros(nbrWeakClassifiers,1);
+P = ones(nbrWeakClassifiers,1);
+D = ones(size(xTrain,2),1)/size(xTrain,1);
 planarity = 1;
 
-for iteration = 1:2%nbrWeakClassifiers
+for iteration = 1:nbrWeakClassifiers
     minerror = inf;
     for feature = 1:nbrHaarFeatures
         thresholds = unique(xTrain(feature,:));
@@ -83,22 +82,17 @@ for iteration = 1:2%nbrWeakClassifiers
                 error = 1 - error;
                 planarity = -planarity;
             end
-            if error < minerror
-                T(iteration) = threshold;
-                P(iteration) = planarity;
-                F(iteration) = feature;
-                minerror = error;
-            end
+            if error < minerror:
+        
         end
     end
-    A(iteration) = (1/2)*(1-minerror)/minerror;
-    %Updating weights HERE
 end
 
 %% Evaluate your strong classifier here
 %  You can evaluate on the training data if you want, but you CANNOT use
 %  this as a performance metric since it is biased. You MUST use the test
 %  data to truly evaluate the strong classifier.
+
 
 
 %% Plot the error of the strong classifier as a function of the number of weak classifiers.
