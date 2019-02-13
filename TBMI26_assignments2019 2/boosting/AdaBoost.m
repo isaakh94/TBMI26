@@ -6,7 +6,7 @@
 nbrHaarFeatures = 25;
 % Number of training images, will be evenly split between faces and
 % non-faces. (Should be even.)
-nbrTrainImages = 50;
+nbrTrainImages = 4000;
 % Number of weak classifiers
 nbrWeakClassifiers = 10;
 
@@ -72,33 +72,37 @@ F = zeros(nbrWeakClassifiers,1); %Which features to cut on
 D = ones(size(xTrain,2),1)/size(xTrain,2); %Weights of samples
 planarity = 1;
 
-for iteration = 1:2%nbrWeakClassifiers
+for iteration = 1:nbrWeakClassifiers
     minerror = inf;
     for feature = 1:nbrHaarFeatures
         thresholds = unique(xTrain(feature,:));
         for threshold = 1:length(thresholds)
-            C = WeakClassifier(threshold, planarity, xTrain(feature,:));
+            C = WeakClassifier(thresholds(threshold), planarity, xTrain(feature,:));
             error = WeakClassifierError(C, D, yTrain);
             if error > 0.5
                 error = 1 - error;
                 planarity = -planarity;
             end
             if error < minerror
-                T(iteration) = threshold;
+                T(iteration) = thresholds(threshold);
                 P(iteration) = planarity;
                 F(iteration) = feature;
                 minerror = error;
             end
         end
     end
-    A(iteration) = (1/2)*(1-minerror)/minerror;
-    %Updating weights HERE
+    A(iteration) = (1/2)*log((1-minerror)/minerror);
+    C = WeakClassifier(T(iteration), P(iteration), xTrain(F(iteration),:));
+    D = D.*(exp(-A(iteration)*yTrain.*C))';
+    D = D/sum(D);
 end
 
 %% Evaluate your strong classifier here
 %  You can evaluate on the training data if you want, but you CANNOT use
 %  this as a performance metric since it is biased. You MUST use the test
 %  data to truly evaluate the strong classifier.
+eTrain = zeros(nbrWeakClassifiers,1);
+eTest = zeros(nbrWeakClassifiers,1);
 
 
 %% Plot the error of the strong classifier as a function of the number of weak classifiers.
