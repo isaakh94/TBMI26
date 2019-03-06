@@ -49,7 +49,6 @@ end
 gwdraw(Q)
 
 %% Plotting policy and V-function
-optimal_policy = gwgetpolicy(Q);
 imagesc(max(Q, [], 3))
 global GWTERM;
 global GWFEED;
