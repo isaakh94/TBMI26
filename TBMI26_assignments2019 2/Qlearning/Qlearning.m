@@ -1,6 +1,6 @@
 %% Initialization
 %  Initialize the world, Q-table, and hyperparameters
-world = 4;
+world = 12;
 gwinit(world);
 initial_state = gwstate;
 Q = rand(initial_state.ysize, initial_state.xsize, 4);
@@ -8,11 +8,11 @@ Q(initial_state.ysize, :, 1) = -inf;
 Q(1, :, 2) = -inf;
 Q(:, initial_state.xsize, 3) = -inf;
 Q(:, 1, 4) = -inf;
-learning_rate = 0.1;
-discount_factor = 0.7;
+learning_rate = 0.25;
+discount_factor = 0.9;
 initial_epsilon = 0.9;
-nr_of_episodes = 10000;
-%gwdraw
+nr_of_episodes = 2000;
+gwdraw
 
 %% Training loop
 %  Train the agent using the Q-learning algorithm.
@@ -26,6 +26,8 @@ for episode=1:nr_of_episodes
         if new_state.isvalid
             Q(state.pos(1), state.pos(2), action) = (1 - learning_rate)*Q(state.pos(1), state.pos(2), action) + learning_rate*(new_state.feedback + discount_factor*max(Q(new_state.pos(1), new_state.pos(2), :)));
             state = new_state;
+        %else %Penalty for avoiding pillars
+        %    Q(state.pos(1), state.pos(2), action) = (1 - learning_rate)*Q(state.pos(1), state.pos(2), action) + learning_rate*(-11 + discount_factor*max(Q(new_state.pos(1), new_state.pos(2), :)));
         end
     end
     if state.isterminal==1
